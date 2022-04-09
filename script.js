@@ -85,7 +85,7 @@ let todayDateSpna = document.getElementById('todayDate');
 let iftarOrSeheriSpan = document.getElementById('iftarOrSeheri');
 let locationText = document.getElementById('locationText');
 todayDateSpna.innerHTML = `${timeConverterDateOnly(currentTime)}`;
-const LOCATION_WEB = 'jhd';
+const LOCATION_WEB = 'dhk';
 locationText.innerHTML = LOCATION_WEB;
 
 let newInterval;
