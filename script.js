@@ -85,11 +85,17 @@ let todayDateSpna = document.getElementById('todayDate');
 let iftarOrSeheriSpan = document.getElementById('iftarOrSeheri');
 let locationText = document.getElementById('locationText');
 todayDateSpna.innerHTML = `${timeConverterDateOnly(currentTime)}`;
-const LOCATION_WEB = 'dhk';
-locationText.innerHTML = LOCATION_WEB;
+
+//location setting
+let prefLocation = localStorage.getItem('userLocation');
+//console.log(prefLocation);
+if (prefLocation === null) {
+    prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
+}
+locationText.innerHTML = prefLocation;
 
 let newInterval;
-if (LOCATION_WEB === 'jhd'){
+if (prefLocation === 'jhd'){
     if (showIftar == true) {
         newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
         iftarOrSeheriSpan.innerHTML = 'iftar';
@@ -98,7 +104,7 @@ if (LOCATION_WEB === 'jhd'){
         iftarOrSeheriSpan.innerHTML = 'seheri ends';
         ramadanDate -= 1;
     };
-} else if (LOCATION_WEB === 'dhk'){
+} else if (prefLocation === 'dhk'){
     if (showIftar == true) {
         newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
         iftarOrSeheriSpan.innerHTML = 'iftar';
@@ -151,6 +157,7 @@ function changeLocation() {
     let locationSpan = document.getElementById('location');
     if (locationSpan.innerHTML === 'jhd') {
         locationSpan.innerHTML = 'dhk';
+        localStorage.setItem('userLocation','dhk');
         clearInterval(newInterval);
         if (showIftar == true) {
             newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
@@ -159,6 +166,7 @@ function changeLocation() {
         };
     } else {
         locationSpan.innerHTML = 'jhd';
+        localStorage.setItem('userLocation','jhd');
         clearInterval(newInterval);
         if (showIftar == true) {
             newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
