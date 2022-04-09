@@ -83,17 +83,31 @@ let countDownSpan = document.getElementById('timer');
 let ramadanDateSpan = document.getElementById('ramadanDate');
 let todayDateSpna = document.getElementById('todayDate');
 let iftarOrSeheriSpan = document.getElementById('iftarOrSeheri');
+let locationText = document.getElementById('locationText');
 todayDateSpna.innerHTML = `${timeConverterDateOnly(currentTime)}`;
+const LOCATION_WEB = 'jhd';
+locationText.innerHTML = LOCATION_WEB;
 
 let newInterval;
-if (showIftar == true) {
-    newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
-    iftarOrSeheriSpan.innerHTML = 'iftar';
-} else {
-    newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
-    iftarOrSeheriSpan.innerHTML = 'seheri ends';
-    ramadanDate -= 1;
-};
+if (LOCATION_WEB === 'jhd'){
+    if (showIftar == true) {
+        newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'iftar';
+    } else {
+        newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'seheri ends';
+        ramadanDate -= 1;
+    };
+} else if (LOCATION_WEB === 'dhk'){
+    if (showIftar == true) {
+        newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'iftar';
+    } else {
+        newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'seheri ends';
+        ramadanDate -= 1;
+    };
+}
 
 if (ramadanDate == 3) {
     ramadanDate = '3rd';
