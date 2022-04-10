@@ -1,3 +1,5 @@
+isDebugging = false;
+
 const iftarTimeDhaka = [1648988340, 1649074740, 1649161200, 1649247600, 1649334060, 1649420460, 1649506860, 1649593320, 1649679720, 1649766180, 1649852580, 1649938980, 1650025440, 1650111840, 1650198240, 1650284700, 1650371100, 1650457560, 1650543960, 1650630420, 1650716820, 1650803280, 1650889680, 1650976140, 1651062540, 1651148940, 1651235400, 1651321800, 1651408260, 1651494660];
 const seheriTimeDhaka = [1648938420,1649024760,1649111040,1649197440,1649283780,1649370120,1649456460,1649542800,1649629140,1649715480,1649801820,1649888160,1649974500,1650060840,1650147180,1650233520,1650319860,1650406200,1650492540,1650578880,1650665220,1650751560,1650837900,1650924240,1651010580,1651096920,1651183260,1651269600,1651355940,1651442280];
 
@@ -27,17 +29,14 @@ function timeConverterDateOnly(UNIX_timestamp) {
     return time;
 }
 
-
-//console.log(timeConverter(iftarTimeDhaka[2]));
-//console.log(parseInt(Date.now() / 1000));
 const currentTime = parseInt(Date.now() / 1000);
 let todaysIftar;
 let ramadanDate;
 
 for (let index = 0; index < iftarTimeDhaka.length; index++) {
-    console.log(`iftar: we took ${index} now.`)
+    if(isDebugging) console.log(`iftar: we took ${index} now.`);
     if (currentTime > iftarTimeDhaka[index]) {
-        console.log(index);
+        if(isDebugging) console.log(index);
         todaysIftar = iftarTimeDhaka[index + 1];
         //console.log(iftarTimeDhaka[index + 1]);
         ramadanDate = index + 2;
@@ -48,9 +47,9 @@ for (let index = 0; index < iftarTimeDhaka.length; index++) {
 
 //handle seheri
 for (let index = 0; index < seheriTimeDhaka.length; index++) {
-    console.log(`seheri: we took ${index} now.`)
+    if(isDebugging) console.log(`seheri: we took ${index} now.`);
     if (currentTime > seheriTimeDhaka[index]) {
-        console.log(index);
+        if(isDebugging) console.log(index);
         todaysSeheri = seheriTimeDhaka[index + 1];
         //console.log(iftarTimeDhaka[index + 1]);
         //ramadanDate = index + 2;
@@ -62,19 +61,19 @@ let showIftar;
 
 //decide what to show??
 if (todaysIftar > todaysSeheri) {
-    console.log(`iftar bigger than seheri`);
+    if(isDebugging) console.log(`iftar bigger than seheri`);
     //show seheri
     showIftar = false;
 } else {
-    console.log(`seheri bigger than iftar`);
+    if(isDebugging) console.log(`seheri bigger than iftar`);
     //shwo iftar
     showIftar = true;
 }
 
-console.log(showIftar);
+if(isDebugging) console.log(showIftar);
 
 
-console.log(`Today's Iftar time is ${timeConverter(todaysIftar)}`);
+if(isDebugging) console.log(`Today's Iftar time is ${timeConverter(todaysIftar)}`);
 
 
 let remainingTime = 1649161200;
@@ -88,7 +87,7 @@ todayDateSpna.innerHTML = `${timeConverterDateOnly(currentTime)}`;
 
 //location setting
 let prefLocation = localStorage.getItem('userLocation');
-//console.log(prefLocation);
+if(isDebugging) console.log(`prefLocation from localStorage: ${prefLocation}`);
 if (prefLocation === null) {
     prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
 }
