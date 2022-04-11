@@ -90,6 +90,7 @@ let prefLocation = localStorage.getItem('userLocation');
 if(isDebugging) console.log(`prefLocation from localStorage: ${prefLocation}`);
 if (prefLocation === null) {
     prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
+    localStorage.setItem('userLocation','dhk');
 }
 locationText.innerHTML = prefLocation;
 
@@ -112,7 +113,16 @@ if (prefLocation === 'jhd'){
         iftarOrSeheriSpan.innerHTML = 'seheri ends';
         ramadanDate -= 1;
     };
-}
+} else if (prefLocation === 'naqi'){
+    if (showIftar == true) {
+        newInterval = setInterval(function () { MModeTimer(todaysIftar + 900) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'iftar';
+    } else {
+        newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
+        iftarOrSeheriSpan.innerHTML = 'seheri ends';
+        ramadanDate -= 1;
+    };
+};
 
 if (ramadanDate == 3) {
     ramadanDate = '3rd';
@@ -152,7 +162,7 @@ function MModeTimer(todaysIftar) {
     }
 }
 
-function changeLocation() {
+function changeLocationV1() { // deprecated
     let locationSpan = document.getElementById('location');
     if (locationSpan.innerHTML === 'jhd') {
         locationSpan.innerHTML = 'dhk';
@@ -174,3 +184,46 @@ function changeLocation() {
         };
     }
 }
+
+let locations = ["dhk", "jhd", "naqi"];
+let index;
+if (prefLocation === 'dhk'){
+    index = 0;
+} else if (prefLocation === 'jhd') {
+    index = 1;
+} else {
+    index = 2;
+};
+
+function changeLocation(){
+    let locationSpan = document.getElementById('location');
+    index = ++index%locations.length;
+    if (index === 0){ //locatin is dhk
+        locationSpan.innerHTML = 'dhk';
+        localStorage.setItem('userLocation','dhk');
+        clearInterval(newInterval);
+        if (showIftar == true) {
+            newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
+        } else {
+            newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
+        };
+    } else if (index === 1) { //jhenidah
+        locationSpan.innerHTML = 'jhd';
+        localStorage.setItem('userLocation','jhd');
+        clearInterval(newInterval);
+        if (showIftar == true) {
+            newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
+        } else {
+            newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
+        };
+    } else { // location is naqi
+        locationSpan.innerHTML = 'naqi';
+        localStorage.setItem('userLocation','naqi');
+        clearInterval(newInterval);
+        if (showIftar == true) {
+            newInterval = setInterval(function () { MModeTimer(todaysIftar + 900) }, 1000);
+        } else {
+            newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
+        };
+    };
+};
