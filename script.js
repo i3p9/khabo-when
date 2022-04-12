@@ -60,7 +60,7 @@ for (let index = 0; index < seheriTimeDhaka.length; index++) {
 let showIftar;
 
 //decide what to show??
-if (todaysIftar > todaysSeheri) {
+if (todaysIftar+900 > todaysSeheri+900) {
     if(isDebugging) console.log(`iftar bigger than seheri`);
     //show seheri
     showIftar = false;
