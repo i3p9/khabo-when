@@ -1,24 +1,170 @@
-isDebugging = false;
+const ramadan = [{ day: 1, date: 1679594400, seheri: 1679611140, iftar: 1679660040, },
+    { day: 2, date: 1679680800, seheri: 1679697480, iftar: 1679746500, },
+    { day: 3, date: 1679767200, seheri: 1679783760, iftar: 1679832900, },
+    { day: 4, date: 1679853600, seheri: 1679870100, iftar: 1679919360, },
+    { day: 5, date: 1679940000, seheri: 1679956440, iftar: 1680005760, },
+    { day: 6, date: 1680026400, seheri: 1680042780, iftar: 1680092220, },
+    { day: 7, date: 1680112800, seheri: 1680129060, iftar: 1680178620, },
+    { day: 8, date: 1680199200, seheri: 1680215400, iftar: 1680265080, },
+    { day: 9, date: 1680285600, seheri: 1680301740, iftar: 1680351480, },
+    { day: 10, date: 1680372000, seheri: 1680388080, iftar: 1680437940, },
+    { day: 11, date: 1680458400, seheri: 1680474420, iftar: 1680524340, },
+    { day: 12, date: 1680544800, seheri: 1680560760, iftar: 1680610740, },
+    { day: 13, date: 1680631200, seheri: 1680647040, iftar: 1680697200, },
+    { day: 14, date: 1680717600, seheri: 1680733440, iftar: 1680783600, },
+    { day: 15, date: 1680804000, seheri: 1680819780, iftar: 1680870060, },
+    { day: 16, date: 1680890400, seheri: 1680906120, iftar: 1680956460, },
+    { day: 17, date: 1680976800, seheri: 1680992460, iftar: 1681042860, },
+    { day: 18, date: 1681063200, seheri: 1681078800, iftar: 1681129320, },
+    { day: 19, date: 1681149600, seheri: 1681165140, iftar: 1681215720, },
+    { day: 20, date: 1681236000, seheri: 1681251480, iftar: 1681302180, },
+    { day: 21, date: 1681322400, seheri: 1681337820, iftar: 1681388580, },
+    { day: 22, date: 1681408800, seheri: 1681424100, iftar: 1681474980, },
+    { day: 23, date: 1681495200, seheri: 1681510440, iftar: 1681561440, },
+    { day: 24, date: 1681581600, seheri: 1681596780, iftar: 1681647840, },
+    { day: 25, date: 1681668000, seheri: 1681683120, iftar: 1681734240, },
+    { day: 26, date: 1681754400, seheri: 1681769460, iftar: 1681820700, },
+    { day: 27, date: 1681840800, seheri: 1681855800, iftar: 1681907100, },
+    { day: 28, date: 1681927200, seheri: 1681942140, iftar: 1681993560, },
+    { day: 29, date: 1682013600, seheri: 1682028480, iftar: 1682079960, },
+    { day: 30, date: 1682100000, seheri: 1682114820, iftar: 1682166420, },];
 
-const iftarTimeDhaka2022 = [1648988340, 1649074740, 1649161200, 1649247600, 1649334060, 1649420460, 1649506860, 1649593320, 1649679720, 1649766180, 1649852580, 1649938980, 1650025440, 1650111840, 1650198240, 1650284700, 1650371100, 1650457560, 1650543960, 1650630420, 1650716820, 1650803280, 1650889680, 1650976140, 1651062540, 1651148940, 1651235400, 1651321800, 1651408260, 1651494660];
-const seheriTimeDhaka2022 = [1648938420,1649024760,1649111040,1649197440,1649283780,1649370120,1649456460,1649542800,1649629140,1649715480,1649801820,1649888160,1649974500,1650060840,1650147180,1650233520,1650319860,1650406200,1650492540,1650578880,1650665220,1650751560,1650837900,1650924240,1651010580,1651096920,1651183260,1651269600,1651355940,1651442280];
 
-const iftarTimeDhaka = [1679660040, 1679746500, 1679832900, 1679919360, 1680005760, 1680092220, 1680178620, 1680265080, 1680351480, 1680437940, 1680524340, 1680610740, 1680697200, 1680783600, 1680870060, 1680956460, 1681042860, 1681129320, 1681215720, 1681302180, 1681388580, 1681474980, 1681561440, 1681647840, 1681734240, 1681820700, 1681907100, 1681993560, 1682079960, 1682166420]
+const currentTime = parseInt(Date.now() / 1000);
+console.log(`current time: ${currentTime}`);
 
-const seheriTimeDhaka = [1679611140, 1679697480, 1679783760, 1679870100, 1679956440, 1680042780, 1680129060, 1680215400, 1680301740, 1680388080, 1680474420, 1680560760, 1680647040, 1680733440, 1680819780, 1680906120, 1680992460, 1681078800, 1681165140, 1681251480, 1681337820, 1681424100, 1681510440, 1681596780, 1681683120, 1681769460, 1681855800, 1681942140, 1682028480, 1682114820]
 
-function timeConverter(UNIX_timestamp) {
-    let a = new Date(UNIX_timestamp * 1000);
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    let year = a.getFullYear();
-    let month = months[a.getMonth()];
-    let date = a.getDate();
-    let hour = a.getHours();
-    let min = a.getMinutes();
-    let sec = a.getSeconds();
-    let time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;// + ':' + sec ;
-    return time;
+/// consts
+const todayDateSpan = document.getElementById('todayDate');
+const ramadanDateSpan = document.getElementById('ramadanDate');
+const iftarOrSeheriSpan = document.getElementById('iftarOrSeheri');
+const locationText = document.getElementById('locationText');
+const staticTime = document.getElementById('staticTime');
+
+
+
+todayDateSpan.innerHTML = `${timeConverterDateOnly(currentTime)}`;
+
+//location first setup
+let prefLocation = localStorage.getItem('userLocation');
+console.log(`prefLocation from localStorage: ${prefLocation}`);
+if (prefLocation === null) {
+    prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
+    localStorage.setItem('userLocation', 'dhk');
 }
+locationText.innerHTML = prefLocation;
+
+
+
+// find out the ramadam days before current time (inclusides today's ramadan)
+const whichDay = ramadan.filter((ramadan) => {
+    return ramadan.date < currentTime;
+});
+
+//last obj will be today
+
+console.log(whichDay);
+
+let currentRamadanDate = 0;
+
+if (whichDay.length < 1) {
+    console.log("ramanday not yet");
+    currentRamadanDate = 0;
+} else {
+    currentRamadanDate = whichDay[whichDay.length - 1].day;
+    console.log(currentRamadanDate);
+    console.log(typeof (currentRamadanDate));
+}
+
+let currentTimer;
+let isIftar;
+
+if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
+    console.log("no ramandan yet, show day1 seheri timer")
+    isIftar = false;
+    startCountdown(getCountdownTimeWithLocation(ramadan[0].seheri, prefLocation, isIftar));
+    currentTimer = ramadan[0].seheri;
+    ramadanDateSpan.innerHTML = "~ramadan is not here yet~";
+    iftarOrSeheriSpan.innerHTML = "first seheri";
+    staticTime.innerHTML = formatAMPM(ramadan[0].seheri);
+} else { //ramadan started, show normal
+
+    //finding todays' radaman object, and tomorrows ramadan object, incase todays iftar time passed
+    // and we need to show tomorrows seheri time
+    const currentRamadanObj = ramadan.find((item) => item.day === currentRamadanDate);
+    const nextRamadanObj = ramadan.find((item) => item.day === currentRamadanDate + 1);
+
+    console.log(currentRamadanObj);
+
+
+    if (currentRamadanObj.seheri > currentTime) { // Seheri Time
+        isIftar = false;
+        startCountdown(getCountdownTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
+        currentTimer = currentRamadanObj.seheri;
+        //ramadanDateSpan.innerHTML = currentRamadanDateFormat(toString(currentRamadanObj.day));
+        ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
+
+        iftarOrSeheriSpan.innerHTML = `today's seheri`;
+        staticTime.innerHTML = formatAMPM(currentRamadanObj.seheri);
+    }
+    else if (currentRamadanObj.iftar > currentTime) { // Iftar Time
+        console.log("iftar time");
+        isIftar = true
+        startCountdown(getCountdownTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
+        currentTimer = currentRamadanDate.iftar;
+        ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
+        iftarOrSeheriSpan.innerHTML = `today's iftar`;
+        staticTime.innerHTML = formatAMPM(currentRamadanObj.seheri);
+
+    }
+    else { // Next day Seheri time, Iftar done for today
+        console.log(nextRamadanObj.date);
+        isIftar = false
+        startCountdown(getCountdownTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
+        currentTimer = nextRamadanObj.seheri;
+        ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
+        iftarOrSeheriSpan.innerHTML = `tomorrow's seheri`;
+        staticTime.innerHTML = formatAMPM(nextRamadanObj.seheri);
+    }
+
+}
+
+//let countdownInterval;
+
+function startCountdown(targetTime) {
+    console.log("starting new countdown...");
+    // if (countdownInterval) {
+    //     clearInterval(countdownInterval);
+    //     console.log("cleared the timer to start a new one");
+    // }
+
+    // Get the HTML paragraph element to display the remaining time
+    const countdownElement = document.getElementById("countdownSpan");
+
+    // Update the content of the paragraph element with the initial time
+    const currentTime = parseInt(Date.now() / 1000);
+    const initialTime = Math.floor(targetTime - currentTime);
+    const initialHours = Math.floor(initialTime / 3600);
+    const initialMinutes = Math.floor((initialTime % 3600) / 60);
+    const initialSeconds = initialTime % 60;
+    countdownElement.textContent = `${initialHours} hours, ${initialMinutes} minutes, ${initialSeconds} seconds`;
+
+    // Update the content of the paragraph element every second until the target time is reached
+    const countdownInterval = setInterval(() => {
+        let currentTimeNow = parseInt(Date.now() / 1000);
+        const remainingTime = Math.floor(targetTime - currentTimeNow);
+        const remainingHours = Math.floor(remainingTime / 3600);
+        const remainingMinutes = Math.floor((remainingTime % 3600) / 60);
+        const remainingSeconds = remainingTime % 60;
+        countdownElement.textContent = `${remainingHours} hours, ${remainingMinutes} minutes, ${remainingSeconds} seconds`;
+
+        if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            countdownElement.textContent = "Countdown complete!";
+        }
+    }, 1000);
+};
+
 
 function timeConverterDateOnly(UNIX_timestamp) {
     let a = new Date(UNIX_timestamp * 1000);
@@ -33,165 +179,39 @@ function timeConverterDateOnly(UNIX_timestamp) {
     return time;
 }
 
-const currentTime = parseInt(Date.now() / 1000);
-let todaysIftar;
-let ramadanDate;
+function formatAMPM(UNIX_timestamp) {
 
-for (let index = 0; index < iftarTimeDhaka.length; index++) {
-    if(isDebugging) console.log(`iftar: we took ${index} now.`);
-    if (currentTime > iftarTimeDhaka[index]) {
-        if(isDebugging) console.log(index);
-        todaysIftar = iftarTimeDhaka[index + 1];
-        //console.log(iftarTimeDhaka[index + 1]);
-        ramadanDate = index + 2;
+    var date = new Date(UNIX_timestamp * 1000);
+
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var secends = date.getSeconds();
+
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    secends = secends < 10 ? '0' + secends : secends;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+
+    return strTime;
+}
+
+
+function currentRamadanDateFormat(ramadanDate) {
+    if (ramadanDate == 3) {
+        return `3rd`;
+    } else if (ramadanDate == 1) {
+        return `1st`;
     } else {
-        break;
+        return `${ramadanDate}th`;
     }
 }
 
-//handle seheri
-for (let index = 0; index < seheriTimeDhaka.length; index++) {
-    if(isDebugging) console.log(`seheri: we took ${index} now.`);
-    if (currentTime > seheriTimeDhaka[index]) {
-        if(isDebugging) console.log(index);
-        todaysSeheri = seheriTimeDhaka[index + 1];
-        //console.log(iftarTimeDhaka[index + 1]);
-        //ramadanDate = index + 2;
-    } else {
-        break;
-    }
-}
-let showIftar;
-
-//decide what to show??
-if (todaysIftar+900 > todaysSeheri+900) {
-    if(isDebugging) console.log(`iftar bigger than seheri`);
-    //show seheri
-    showIftar = false;
-} else {
-    if(isDebugging) console.log(`seheri bigger than iftar`);
-    //shwo iftar
-    showIftar = true;
-}
-
-if(isDebugging) console.log(showIftar);
-
-
-if(isDebugging) console.log(`Today's Iftar time is ${timeConverter(todaysIftar)}`);
-
-
-let remainingTime = 1649161200;
-//let haha = '<span id="haha"></span>';
-let countDownSpan = document.getElementById('timer');
-let ramadanDateSpan = document.getElementById('ramadanDate');
-let todayDateSpna = document.getElementById('todayDate');
-let iftarOrSeheriSpan = document.getElementById('iftarOrSeheri');
-let locationText = document.getElementById('locationText');
-todayDateSpna.innerHTML = `${timeConverterDateOnly(currentTime)}`;
-
-//location setting
-let prefLocation = localStorage.getItem('userLocation');
-if(isDebugging) console.log(`prefLocation from localStorage: ${prefLocation}`);
-if (prefLocation === null) {
-    prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
-    localStorage.setItem('userLocation','dhk');
-}
-locationText.innerHTML = prefLocation;
-
-let newInterval;
-if (prefLocation === 'jhd'){
-    if (showIftar == true) {
-        newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'iftar';
-    } else {
-        newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'seheri ends';
-        ramadanDate -= 1;
-    };
-} else if (prefLocation === 'dhk'){
-    if (showIftar == true) {
-        newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'iftar';
-    } else {
-        newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'seheri ends';
-        ramadanDate -= 1;
-    };
-} else if (prefLocation === 'naqi'){
-    if (showIftar == true) {
-        newInterval = setInterval(function () { MModeTimer(todaysIftar + 900) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'iftar';
-    } else {
-        newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
-        iftarOrSeheriSpan.innerHTML = 'seheri ends';
-        ramadanDate -= 1;
-    };
-};
-
-if (ramadanDate == 3) {
-    ramadanDate = '3rd';
-} else if (ramadanDate == 1) {
-    ramadanDate = '1st';
-} else {
-    ramadanDate = ramadanDate + 'th';
-}
-
-
-function MModeTimer(todaysIftar) {
-
-    let currentTime = new Date().getTime() / 1000;
-    let futureTime = todaysIftar;
-    let timeRemaining = futureTime - currentTime;
-    let minute = 60;
-    let hour = 60 * 60;
-    let day = 60 * 60 * 24;
-    let dayFloor = Math.floor(timeRemaining / day);
-    let hourFloor = Math.floor((timeRemaining - dayFloor * day) / hour);
-    let minuteFloor = Math.floor((timeRemaining - dayFloor * day - hourFloor * hour) / minute);
-    let secondFloor = Math.floor((timeRemaining - dayFloor * day - hourFloor * hour - minuteFloor * minute));
-    let countdownCompleted = "EAT NOW!!!";
-
-    if (secondFloor <= 0 && minuteFloor <= 0) {
-        window.location.reload(true);
-        //clearInterval(MModeTimer);
-        countDownSpan.innerHTML = countdownCompleted;
-
-    } else {
-
-        if (futureTime > currentTime) {
-            let content = `${hourFloor} Hours ${minuteFloor} Minutes ${secondFloor} Seconds`;
-            countDownSpan.innerHTML = content;
-            ramadanDateSpan.innerHTML = ramadanDate;
-        }
-    }
-}
-
-function changeLocationV1() { // deprecated
-    let locationSpan = document.getElementById('location');
-    if (locationSpan.innerHTML === 'jhd') {
-        locationSpan.innerHTML = 'dhk';
-        localStorage.setItem('userLocation','dhk');
-        clearInterval(newInterval);
-        if (showIftar == true) {
-            newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
-        } else {
-            newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
-        };
-    } else {
-        locationSpan.innerHTML = 'jhd';
-        localStorage.setItem('userLocation','jhd');
-        clearInterval(newInterval);
-        if (showIftar == true) {
-            newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
-        } else {
-            newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
-        };
-    }
-}
 
 let locations = ["dhk", "jhd", "naqi"];
 let index;
-if (prefLocation === 'dhk'){
+if (prefLocation === 'dhk') {
     index = 0;
 } else if (prefLocation === 'jhd') {
     index = 1;
@@ -199,35 +219,48 @@ if (prefLocation === 'dhk'){
     index = 2;
 };
 
-function changeLocation(){
+// TODO: Location is changing in localstorage, but countdown not updating in realtime.
+function changeLocation() {
+    console.log("changeLoc() in");
     let locationSpan = document.getElementById('location');
-    index = ++index%locations.length;
-    if (index === 0){ //locatin is dhk
+    console.log(`locationspan: ${locationSpan}`);
+    index = ++index % locations.length;
+    console.log(`index: ${index}`);
+    if (index === 0) { //locatin is dhk
+        console.log("chaning loc");
         locationSpan.innerHTML = 'dhk';
-        localStorage.setItem('userLocation','dhk');
-        clearInterval(newInterval);
-        if (showIftar == true) {
-            newInterval = setInterval(function () { MModeTimer(todaysIftar) }, 1000);
-        } else {
-            newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
-        };
+        localStorage.setItem('userLocation', 'dhk');
+        clearInterval(countdownInterval);
+        startCountdown(getCountdownTimeWithLocation(currentTimer, "dhk", isIftar));
     } else if (index === 1) { //jhenidah
+        console.log("chaning loc");
         locationSpan.innerHTML = 'jhd';
-        localStorage.setItem('userLocation','jhd');
-        clearInterval(newInterval);
-        if (showIftar == true) {
-            newInterval = setInterval(function () { MModeTimer(todaysIftar + 300) }, 1000);
-        } else {
-            newInterval = setInterval(function () { MModeTimer(todaysSeheri + 300) }, 1000);
-        };
+        localStorage.setItem('userLocation', 'jhd');
+        clearInterval(countdownInterval);
+        startCountdown(getCountdownTimeWithLocation(currentTimer, "jhd", isIftar));
+
     } else { // location is naqi
+        console.log("chaning loc");
         locationSpan.innerHTML = 'naqi';
-        localStorage.setItem('userLocation','naqi');
-        clearInterval(newInterval);
-        if (showIftar == true) {
-            newInterval = setInterval(function () { MModeTimer(todaysIftar + 900) }, 1000);
-        } else {
-            newInterval = setInterval(function () { MModeTimer(todaysSeheri) }, 1000);
-        };
+        localStorage.setItem('userLocation', 'naqi');
+        clearInterval(countdownInterval);
+        startCountdown(getCountdownTimeWithLocation(currentTimer, "naqi", isIftar));
     };
 };
+
+
+
+function getCountdownTimeWithLocation(time, location, isIftar) {
+    switch (location) {
+        case "dhk":
+            console.log(`returning time for ${location}`);
+            return time;
+        case "jhd":
+            console.log(`returning time for ${location}`);
+            return time + 300;
+        case "naqi":
+            console.log(`returning time for ${location}`);
+            console.log(isIftar ? time + 900 : time);
+            return isIftar ? time + 900 : time;
+    }
+}
