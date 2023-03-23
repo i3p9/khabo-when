@@ -1,3 +1,6 @@
+const isDebugging = false;
+if (isDebugging) console.log(`isDebugging: ${isDebugging}`);
+
 const ramadan = [{ day: 1, date: 1679594400, seheri: 1679611140, iftar: 1679660040, },
     { day: 2, date: 1679680800, seheri: 1679697480, iftar: 1679746500, },
     { day: 3, date: 1679767200, seheri: 1679783760, iftar: 1679832900, },
@@ -31,7 +34,7 @@ const ramadan = [{ day: 1, date: 1679594400, seheri: 1679611140, iftar: 16796600
 
 
 const currentTime = parseInt(Date.now() / 1000);
-console.log(`current time: ${currentTime}`);
+if (isDebugging) console.log(`current time: ${currentTime}`);
 
 
 /// consts
@@ -47,7 +50,7 @@ todayDateSpan.innerHTML = `${timeConverterDateOnly(currentTime)}`;
 
 //location first setup
 let prefLocation = localStorage.getItem('userLocation');
-console.log(`prefLocation from localStorage: ${prefLocation}`);
+if (isDebugging) console.log(`prefLocation from localStorage: ${prefLocation}`);
 if (prefLocation === null) {
     prefLocation = 'dhk'; //default location if user hasn't set any or interacted with location
     localStorage.setItem('userLocation', 'dhk');
@@ -63,24 +66,24 @@ const whichDay = ramadan.filter((ramadan) => {
 
 //last obj will be today
 
-console.log(whichDay);
+if (isDebugging) console.log(whichDay);
 
 let currentRamadanDate = 0;
 
 if (whichDay.length < 1) {
-    console.log("ramanday not yet");
+    if (isDebugging) console.log("ramanday not yet");
     currentRamadanDate = 0;
 } else {
     currentRamadanDate = whichDay[whichDay.length - 1].day;
-    console.log(currentRamadanDate);
-    console.log(typeof (currentRamadanDate));
+    if (isDebugging) console.log(currentRamadanDate);
+    if (isDebugging) console.log(typeof (currentRamadanDate));
 }
 
 let currentTimer;
 let isIftar;
 
 if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
-    console.log("no ramandan yet, show day1 seheri timer")
+    if (isDebugging) console.log("no ramandan yet, show day1 seheri timer")
     isIftar = false;
     startCountdown(getCountdownTimeWithLocation(ramadan[0].seheri, prefLocation, isIftar));
     currentTimer = ramadan[0].seheri;
@@ -94,7 +97,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
     const currentRamadanObj = ramadan.find((item) => item.day === currentRamadanDate);
     const nextRamadanObj = ramadan.find((item) => item.day === currentRamadanDate + 1);
 
-    console.log(currentRamadanObj);
+    if (isDebugging) console.log(currentRamadanObj);
 
 
     if (currentRamadanObj.seheri > currentTime) { // Seheri Time
@@ -108,7 +111,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         staticTime.innerHTML = formatAMPM(currentRamadanObj.seheri);
     }
     else if (currentRamadanObj.iftar > currentTime) { // Iftar Time
-        console.log("iftar time");
+        if (isDebugging) console.log("iftar time");
         isIftar = true
         startCountdown(getCountdownTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
         currentTimer = currentRamadanDate.iftar;
@@ -118,7 +121,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
 
     }
     else { // Next day Seheri time, Iftar done for today
-        console.log(nextRamadanObj.date);
+        if (isDebugging) console.log(nextRamadanObj.date);
         isIftar = false
         startCountdown(getCountdownTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = nextRamadanObj.seheri;
@@ -132,10 +135,10 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
 //let countdownInterval;
 
 function startCountdown(targetTime) {
-    console.log("starting new countdown...");
+    if (isDebugging) console.log("starting new countdown...");
     // if (countdownInterval) {
     //     clearInterval(countdownInterval);
-    //     console.log("cleared the timer to start a new one");
+    //     if (isDebugging) console.log("cleared the timer to start a new one");
     // }
 
     // Get the HTML paragraph element to display the remaining time
@@ -221,26 +224,26 @@ if (prefLocation === 'dhk') {
 
 // TODO: Location is changing in localstorage, but countdown not updating in realtime.
 function changeLocation() {
-    console.log("changeLoc() in");
+    if (isDebugging) console.log("changeLoc() in");
     let locationSpan = document.getElementById('location');
-    console.log(`locationspan: ${locationSpan}`);
+    if (isDebugging) console.log(`locationspan: ${locationSpan}`);
     index = ++index % locations.length;
-    console.log(`index: ${index}`);
+    if (isDebugging) console.log(`index: ${index}`);
     if (index === 0) { //locatin is dhk
-        console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc");
         locationSpan.innerHTML = 'dhk';
         localStorage.setItem('userLocation', 'dhk');
         clearInterval(countdownInterval);
         startCountdown(getCountdownTimeWithLocation(currentTimer, "dhk", isIftar));
     } else if (index === 1) { //jhenidah
-        console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc");
         locationSpan.innerHTML = 'jhd';
         localStorage.setItem('userLocation', 'jhd');
         clearInterval(countdownInterval);
         startCountdown(getCountdownTimeWithLocation(currentTimer, "jhd", isIftar));
 
     } else { // location is naqi
-        console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc");
         locationSpan.innerHTML = 'naqi';
         localStorage.setItem('userLocation', 'naqi');
         clearInterval(countdownInterval);
@@ -253,14 +256,14 @@ function changeLocation() {
 function getCountdownTimeWithLocation(time, location, isIftar) {
     switch (location) {
         case "dhk":
-            console.log(`returning time for ${location}`);
+            if (isDebugging) console.log(`returning time for ${location}`);
             return time;
         case "jhd":
-            console.log(`returning time for ${location}`);
+            if (isDebugging) console.log(`returning time for ${location}`);
             return time + 300;
         case "naqi":
-            console.log(`returning time for ${location}`);
-            console.log(isIftar ? time + 900 : time);
+            if (isDebugging) console.log(`returning time for ${location}`);
+            if (isDebugging) console.log(isIftar ? time + 900 : time);
             return isIftar ? time + 900 : time;
     }
 }
