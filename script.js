@@ -117,7 +117,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         currentTimer = currentRamadanDate.iftar;
         ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
         iftarOrSeheriSpan.innerHTML = `today's iftar`;
-        staticTime.innerHTML = formatAMPM(currentRamadanObj.seheri);
+        staticTime.innerHTML = formatAMPM(currentRamadanObj.iftar);
 
     }
     else { // Next day Seheri time, Iftar done for today
