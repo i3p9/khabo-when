@@ -85,11 +85,11 @@ let isIftar;
 if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
     if (isDebugging) console.log("no ramandan yet, show day1 seheri timer")
     isIftar = false;
-    startCountdown(getCountdownTimeWithLocation(ramadan[0].seheri, prefLocation, isIftar));
+    startCountdown(getTimeWithLocation(ramadan[0].seheri, prefLocation, isIftar));
     currentTimer = ramadan[0].seheri;
     ramadanDateSpan.innerHTML = "~ramadan is not here yet~";
     iftarOrSeheriSpan.innerHTML = "first seheri";
-    staticTime.innerHTML = formatAMPM(ramadan[0].seheri);
+    staticTime.innerHTML = formatAMPM(getTimeWithLocation(ramadan[0].seheri, prefLocation, isIftar));
 } else { //ramadan started, show normal
 
     //finding todays' radaman object, and tomorrows ramadan object, incase todays iftar time passed
@@ -102,32 +102,37 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
 
     if (currentRamadanObj.seheri > currentTime) { // Seheri Time
         isIftar = false;
-        startCountdown(getCountdownTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
+        startCountdown(getTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = currentRamadanObj.seheri;
         //ramadanDateSpan.innerHTML = currentRamadanDateFormat(toString(currentRamadanObj.day));
         ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
-
         iftarOrSeheriSpan.innerHTML = `today's seheri`;
-        staticTime.innerHTML = formatAMPM(currentRamadanObj.seheri);
+        staticTime.innerHTML = formatAMPM(getTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
+        staticTime.dataset.time = currentRamadanObj.seheri;
+        //NOTE: dataset.time will be absolute time, no location pref time added.
+        staticTime.dataset.isiftar = false;
     }
     else if (currentRamadanObj.iftar > currentTime) { // Iftar Time
         if (isDebugging) console.log("iftar time");
-        isIftar = true
-        startCountdown(getCountdownTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
+        isIftar = true;
+        startCountdown(getTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
         currentTimer = currentRamadanDate.iftar;
         ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
         iftarOrSeheriSpan.innerHTML = `today's iftar`;
-        staticTime.innerHTML = formatAMPM(currentRamadanObj.iftar);
-
+        staticTime.innerHTML = formatAMPM(getTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
+        staticTime.dataset.time = currentRamadanObj.iftar;
+        staticTime.dataset.isiftar = true;
     }
     else { // Next day Seheri time, Iftar done for today
         if (isDebugging) console.log(nextRamadanObj.date);
-        isIftar = false
-        startCountdown(getCountdownTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
+        isIftar = false;
+        startCountdown(getTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = nextRamadanObj.seheri;
         ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
         iftarOrSeheriSpan.innerHTML = `tomorrow's seheri`;
-        staticTime.innerHTML = formatAMPM(nextRamadanObj.seheri);
+        staticTime.innerHTML = formatAMPM(getTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
+        staticTime.dataset.time = nextRamadanObj.seheri;
+        staticTime.dataset.isiftar = false;
     }
 
 }
@@ -224,36 +229,44 @@ if (prefLocation === 'dhk') {
 
 // TODO: Location is changing in localstorage, but countdown not updating in realtime.
 function changeLocation() {
+    if (isDebugging) console.log(`currentTimer: ${currentTimer}`);
+    let staticTimeSpan = document.getElementById('staticTime');
+    if (isDebugging) console.log(`in changeloc, dataset time: ${staticTime.dataset.isiftar}`);
     if (isDebugging) console.log("changeLoc() in");
     let locationSpan = document.getElementById('location');
     if (isDebugging) console.log(`locationspan: ${locationSpan}`);
     index = ++index % locations.length;
     if (isDebugging) console.log(`index: ${index}`);
     if (index === 0) { //locatin is dhk
-        if (isDebugging) console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc to dhk");
         locationSpan.innerHTML = 'dhk';
+        staticTimeSpan.innerHTML = formatAMPM(getTimeWithLocation(staticTime.dataset.time, "dhk", staticTime.dataset.isiftar));
         localStorage.setItem('userLocation', 'dhk');
         clearInterval(countdownInterval);
-        startCountdown(getCountdownTimeWithLocation(currentTimer, "dhk", isIftar));
+        startCountdown(getTimeWithLocation(staticTime.dataset.time, "dhk", isIftar));
     } else if (index === 1) { //jhenidah
-        if (isDebugging) console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc to jhd");
         locationSpan.innerHTML = 'jhd';
+        staticTimeSpan.innerHTML = formatAMPM(getTimeWithLocation(staticTime.dataset.time, "jhd", staticTime.dataset.isiftar));
         localStorage.setItem('userLocation', 'jhd');
         clearInterval(countdownInterval);
-        startCountdown(getCountdownTimeWithLocation(currentTimer, "jhd", isIftar));
+        startCountdown(getTimeWithLocation(staticTime.dataset.time, "jhd", isIftar));
+
 
     } else { // location is naqi
-        if (isDebugging) console.log("chaning loc");
+        if (isDebugging) console.log("chaning loc to naqi");
         locationSpan.innerHTML = 'naqi';
+        staticTimeSpan.innerHTML = formatAMPM(getTimeWithLocation(staticTime.dataset.time, "naqi", staticTime.dataset.isiftar));
         localStorage.setItem('userLocation', 'naqi');
         clearInterval(countdownInterval);
-        startCountdown(getCountdownTimeWithLocation(currentTimer, "naqi", isIftar));
+        startCountdown(getTimeWithLocation(staticTime.dataset.time, "naqi", isIftar));
     };
 };
 
 
 
-function getCountdownTimeWithLocation(time, location, isIftar) {
+function getTimeWithLocation(time, location, isIftar) {
+    time = parseInt(time);
     switch (location) {
         case "dhk":
             if (isDebugging) console.log(`returning time for ${location}`);
