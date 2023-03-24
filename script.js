@@ -128,7 +128,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         isIftar = false;
         startCountdown(getTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = nextRamadanObj.seheri;
-        ramadanDateSpan.innerHTML = currentRamadanDateFormat(currentRamadanObj.day.toString());
+        ramadanDateSpan.innerHTML = currentRamadanDateFormat(nextRamadanObj.day.toString());
         iftarOrSeheriSpan.innerHTML = `tomorrow's seheri`;
         staticTime.innerHTML = formatAMPM(getTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
         staticTime.dataset.time = nextRamadanObj.seheri;
@@ -211,7 +211,9 @@ function currentRamadanDateFormat(ramadanDate) {
         return `3rd`;
     } else if (ramadanDate == 1) {
         return `1st`;
-    } else {
+    }else if (ramadanDate == 2){
+        return `2nd`;
+    }else {
         return `${ramadanDate}th`;
     }
 }
