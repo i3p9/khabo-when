@@ -100,7 +100,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
     if (isDebugging) console.log(currentRamadanObj);
 
 
-    if (currentRamadanObj.seheri > currentTime) { // Seheri Time
+    if (getTimeWithLocation(currentRamadanObj.seheri, prefLocation) > currentTime) { // Seheri Time
         isIftar = false;
         startCountdown(getTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = currentRamadanObj.seheri;
@@ -112,7 +112,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         //NOTE: dataset.time will be absolute time, no location pref time added.
         staticTime.dataset.isiftar = false;
     }
-    else if (currentRamadanObj.iftar > currentTime) { // Iftar Time
+    else if (getTimeWithLocation(currentRamadanObj.iftar,prefLocation) > currentTime) { // Iftar Time
         if (isDebugging) console.log("iftar time");
         isIftar = true;
         startCountdown(getTimeWithLocation(currentRamadanObj.iftar, prefLocation, isIftar));
@@ -155,7 +155,11 @@ function startCountdown(targetTime) {
     const initialHours = Math.floor(initialTime / 3600);
     const initialMinutes = Math.floor((initialTime % 3600) / 60);
     const initialSeconds = initialTime % 60;
-    countdownElement.textContent = `${initialHours} hours, ${initialMinutes} minutes, ${initialSeconds} seconds`;
+    if (initialHours === 0) { // dont show hours
+        countdownElement.textContent = `${initialMinutes} minutes, ${initialSeconds} seconds`;
+    } else {
+        countdownElement.textContent = `${initialHours} hours, ${initialMinutes} minutes, ${initialSeconds} seconds`;
+    }
 
     // Update the content of the paragraph element every second until the target time is reached
     const countdownInterval = setInterval(() => {
@@ -164,11 +168,15 @@ function startCountdown(targetTime) {
         const remainingHours = Math.floor(remainingTime / 3600);
         const remainingMinutes = Math.floor((remainingTime % 3600) / 60);
         const remainingSeconds = remainingTime % 60;
-        countdownElement.textContent = `${remainingHours} hours, ${remainingMinutes} minutes, ${remainingSeconds} seconds`;
+        if (remainingHours === 0) { // dont show hours
+            countdownElement.textContent = `${remainingMinutes} minutes, ${remainingSeconds} seconds`;
+        } else {
+            countdownElement.textContent = `${remainingHours} hours, ${remainingMinutes} minutes, ${remainingSeconds} seconds`;
+        }
 
         if (remainingTime <= 0) {
             clearInterval(countdownInterval);
-            countdownElement.textContent = "Countdown complete!";
+            countdownElement.textContent = "what are you looking at? stop/start eating lol";
         }
     }, 1000);
 };
