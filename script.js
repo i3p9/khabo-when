@@ -1,4 +1,4 @@
-const isDebugging = true;
+const isDebugging = false;
 if (isDebugging) console.log(`isDebugging: ${isDebugging}`);
 
 const ramadan = [{ day: 1, date: 1679594400, seheri: 1679611140, iftar: 1679660040, },
