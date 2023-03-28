@@ -369,3 +369,48 @@ function toggleBar() {
         progressElement.style.display = "none";
     }
 }
+
+//monochrome section
+//https://stackoverflow.com/a/68824350/4389146
+
+const prefersMono = localStorage.getItem('prefersMono');
+if (prefersMono){
+    document.documentElement.classList.add("mono");
+    document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#000000');
+} else {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
+        document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#171717');
+    } else {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#fc4445');
+    }
+
+}
+
+
+function toggleMonochrome() {
+    console.log(`should try to toggle to monochrome`);
+    // if we are already in mono, remove the mono class and let
+    // prefer-color-scheme deal with it
+    if (document.documentElement.classList.contains("mono")) {
+        document.documentElement.classList.remove("mono");
+        localStorage.setItem('prefersMono', false);
+        return;
+    }
+
+    if (document.documentElement.classList.contains("light")) {
+        document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("mono");
+    } else if (document.documentElement.classList.contains("dark")) {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("mono");
+    } else{
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
+            console.log(`from prefers-color-scheme`);
+            document.documentElement.classList.add("mono");
+            localStorage.setItem('prefersMono', true);
+        } else {
+            document.documentElement.classList.add("mono");
+            localStorage.setItem('prefersMono', true);
+        }
+    }
+}

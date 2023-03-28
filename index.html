@@ -11,7 +11,7 @@
     <title>Kokhon Khabo?</title>
     <meta name="description" content="ramadan 2023 iftar timer">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="fc4445" />
+    <meta name="theme-color" content="#fc4445" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -27,11 +27,15 @@
         <div class="h-100 row align-items-center">
 
             <div class="col">
-                <p class="text-center p-4"><span class="bordered title-text" style="background: #cafafe;">kokhon
-                        khabo?</span></p>
+                <a class="" id="" href="#" onclick="toggleMonochrome();">
+                    <p class="text-center p-4"><span class="bordered title-text">kokhon
+                            khabo?</span></p>
+                </a>
+
                 <div class="content">
                     <p class="text-center">today's date: <span class="highlighted-text" id="todayDate"></span></p>
-                    <p id="whatDayofRamadan" class="text-center">and it's the <span class="highlighted-text" id="ramadanDate"></span> day of
+                    <p id="whatDayofRamadan" class="text-center">and it's the <span class="highlighted-text"
+                            id="ramadanDate"></span> day of
                         ramadan</p>
                     <p class="text-center" id="countdownelement"><span class="highlighted-text"
                             id="countdownSpan"></span><br><span class="highlighted-text"
@@ -39,11 +43,11 @@
                     <p class="text-center">until <span id="iftarOrSeheri"></span>: <span class="highlighted-text"
                             id="staticTime"></span></p>
                     <p class="text-center">location: <a class="location" id="location" href=""
-                            onclick="changeLocation();"><span id="locationText"></span></a> <a class="toggleBar" href="#" onclick="toggleBar()">// toggle bar</a></p>
-                            <div class="progress-bar">
-                                <div class="progress"><span id="progressPercentage"></span></div>
-                              </div>
-
+                            onclick="changeLocation();"><span id="locationText"></span></a> <a class="toggleBar"
+                            href="#" onclick="toggleBar()">// toggle bar</a></p>
+                    <div class="progress-bar">
+                        <div class="progress"><span id="progressPercentage"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
