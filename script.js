@@ -207,7 +207,7 @@ function startCountdown(targetTime, isProgress, startTime) {
     }, 1000);
 };
 
-function hideProgressBarSection(){
+function hideProgressBarSection() {
     var progressElement = document.querySelector('.progress-bar');
     var toggleText = document.querySelector('.toggleBar');
     progressElement.style.display = "none";
@@ -373,18 +373,28 @@ function toggleBar() {
 //monochrome section
 //https://stackoverflow.com/a/68824350/4389146
 
-const prefersMono = localStorage.getItem('prefersMono');
-if (prefersMono){
-    document.documentElement.classList.add("mono");
-    document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#000000');
-} else {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
-        document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#171717');
+function onLoadFunction() {
+    const prefersMono = localStorage.getItem('prefersMono');
+    console.log(`localstorage prefers mono: ${prefersMono}`);
+    if (prefersMono == 1) {
+        console.log(`prefersmono is TRUE here`); // 0 is false
+        document.documentElement.classList.add("mono");
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
     } else {
-        document.querySelector('meta[name="theme-color"]').setAttribute('content',  '#fc4445');
+        console.log(`prefersmono is FALSE here`); // 1 is true
+        //document.documentElement.classList.remove("mono");
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
+            console.log(`on dark mode so setting dark mode theme color`);
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#171717');
+        } else {
+            console.log(`on light mode so setting light mode theme color`);
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fc4445');
+        }
+
     }
 
 }
+
 
 
 function toggleMonochrome() {
@@ -393,7 +403,7 @@ function toggleMonochrome() {
     // prefer-color-scheme deal with it
     if (document.documentElement.classList.contains("mono")) {
         document.documentElement.classList.remove("mono");
-        localStorage.setItem('prefersMono', false);
+        localStorage.setItem('prefersMono', 0);
         return;
     }
 
@@ -403,14 +413,14 @@ function toggleMonochrome() {
     } else if (document.documentElement.classList.contains("dark")) {
         document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("mono");
-    } else{
+    } else {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
             console.log(`from prefers-color-scheme`);
             document.documentElement.classList.add("mono");
-            localStorage.setItem('prefersMono', true);
+            localStorage.setItem('prefersMono', 1);
         } else {
             document.documentElement.classList.add("mono");
-            localStorage.setItem('prefersMono', true);
+            localStorage.setItem('prefersMono', 1);
         }
     }
 }
