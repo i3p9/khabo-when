@@ -111,6 +111,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         staticTime.dataset.time = currentRamadanObj.seheri;
         //NOTE: dataset.time will be absolute time, no location pref time added.
         staticTime.dataset.isiftar = false;
+        hideProgressBarSection();
     }
     else if (getTimeWithLocation(currentRamadanObj.iftar, prefLocation) > currentTime) { // Iftar Time
         if (isDebugging) console.log("iftar time");
@@ -136,16 +137,17 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         staticTime.innerHTML = formatAMPM(getTimeWithLocation(nextRamadanObj.seheri, prefLocation, isIftar));
         staticTime.dataset.time = nextRamadanObj.seheri;
         staticTime.dataset.isiftar = false;
+        hideProgressBarSection();
     }
     //progress bar hide section
-    if (staticTime.dataset.isiftar == false) {
-        // if its not iftar, hide the progressbar element
-        var progressElement = document.querySelector('.progress-bar');
-        var toggleText = document.querySelector('.toggleBar');
-        progressElement.style.display = "none";
-        toggleText.style.display = "none";
-        console.log('else, hiding progressbar');
-    }
+    // if (staticTime.dataset.isiftar == false) {
+    //     // if its not iftar, hide the progressbar element
+    //     var progressElement = document.querySelector('.progress-bar');
+    //     var toggleText = document.querySelector('.toggleBar');
+    //     progressElement.style.display = "none";
+    //     toggleText.style.display = "none";
+    //     console.log('else, hiding progressbar');
+    // }
 }
 
 //let countdownInterval;
@@ -205,6 +207,13 @@ function startCountdown(targetTime, isProgress, startTime) {
     }, 1000);
 };
 
+function hideProgressBarSection(){
+    var progressElement = document.querySelector('.progress-bar');
+    var toggleText = document.querySelector('.toggleBar');
+    progressElement.style.display = "none";
+    toggleText.style.display = "none";
+    console.log(`hidden progressbar!`);
+}
 
 function timeConverterDateOnly(UNIX_timestamp) {
     let a = new Date(UNIX_timestamp * 1000);
