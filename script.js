@@ -162,6 +162,7 @@ function startCountdown(targetTime, isProgress, startTime) {
     const initialSeconds = initialTime % 60;
     if (initialHours === 0) { // dont show hours
         countdownElement.textContent = `${initialMinutes} minutes, ${initialSeconds} seconds`;
+        countdownElementSecond.style.display = "none";
     } else {
         countdownElement.textContent = `${initialHours} hours, ${initialMinutes} minutes`;
         countdownElementSecond.textContent = `${initialSeconds} seconds`
@@ -176,6 +177,7 @@ function startCountdown(targetTime, isProgress, startTime) {
         const remainingSeconds = remainingTime % 60;
         if (remainingHours === 0) { // dont show hours
             countdownElement.textContent = `${remainingMinutes} minutes, ${remainingSeconds} seconds`;
+            countdownElementSecond.style.display = "none";
         } else {
             countdownElement.textContent = `${remainingHours} hours, ${remainingMinutes} minutes`;
             countdownElementSecond.textContent = `${remainingSeconds} seconds`
