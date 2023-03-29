@@ -139,15 +139,6 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         staticTime.dataset.isiftar = false;
         hideProgressBarSection();
     }
-    //progress bar hide section
-    // if (staticTime.dataset.isiftar == false) {
-    //     // if its not iftar, hide the progressbar element
-    //     var progressElement = document.querySelector('.progress-bar');
-    //     var toggleText = document.querySelector('.toggleBar');
-    //     progressElement.style.display = "none";
-    //     toggleText.style.display = "none";
-    //     console.log('else, hiding progressbar');
-    // }
 }
 
 //let countdownInterval;
@@ -295,7 +286,6 @@ function changeLocation() {
         clearInterval(countdownInterval);
         startCountdown(getTimeWithLocation(staticTime.dataset.time, "jhd", isIftar));
 
-
     } else { // location is naqi
         if (isDebugging) console.log("chaning loc to naqi");
         locationSpan.innerHTML = 'naqi';
@@ -354,13 +344,6 @@ function progress(start, end) {
 
 }
 
-
-window.addEventListener('load', function () {
-    var contentWidth = document.querySelector('#whatDayofRamadan').offsetWidth;
-    console.log('Content width:', currentRamadanObj);
-});
-
-
 function toggleBar() {
     var progressElement = document.querySelector('.progress-bar');
     if (progressElement.style.display === "none") {
@@ -375,19 +358,19 @@ function toggleBar() {
 
 function onLoadFunction() {
     const prefersMono = localStorage.getItem('prefersMono');
-    console.log(`localstorage prefers mono: ${prefersMono}`);
+    if (isDebugging) console.log(`localstorage prefers mono: ${prefersMono}`);
     if (prefersMono == 1) {
-        console.log(`prefersmono is TRUE here`); // 0 is false
+        if (isDebugging) console.log(`prefersmono is TRUE here`); // 0 is false
         document.documentElement.classList.add("mono");
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
     } else {
-        console.log(`prefersmono is FALSE here`); // 1 is true
+        if (isDebugging) console.log(`prefersmono is FALSE here`); // 1 is true
         //document.documentElement.classList.remove("mono");
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
-            console.log(`on dark mode so setting dark mode theme color`);
+            if (isDebugging) console.log(`on dark mode so setting dark mode theme color`);
             document.querySelector('meta[name="theme-color"]').setAttribute('content', '#171717');
         } else {
-            console.log(`on light mode so setting light mode theme color`);
+            if (isDebugging) console.log(`on light mode so setting light mode theme color`);
             document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fc4445');
         }
 
@@ -398,29 +381,68 @@ function onLoadFunction() {
 
 
 function toggleMonochrome() {
-    console.log(`should try to toggle to monochrome`);
+    if (isDebugging) console.log(`should try to toggle to monochrome`);
     // if we are already in mono, remove the mono class and let
     // prefer-color-scheme deal with it
     if (document.documentElement.classList.contains("mono")) {
         document.documentElement.classList.remove("mono");
         localStorage.setItem('prefersMono', 0);
+        const colorSchemeCode = getCurrentColorSchemeCode();
+        metaThemeColorChanger(colorSchemeCode);
         return;
     }
 
     if (document.documentElement.classList.contains("light")) {
         document.documentElement.classList.remove("light");
         document.documentElement.classList.add("mono");
+        metaThemeColorChanger('#000000');
+        localStorage.setItem('prefersMono', 1);
     } else if (document.documentElement.classList.contains("dark")) {
         document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("mono");
+        metaThemeColorChanger('#000000');
+        localStorage.setItem('prefersMono', 1);
     } else {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
-            console.log(`from prefers-color-scheme`);
+            if (isDebugging) console.log(`from prefers-color-scheme`);
             document.documentElement.classList.add("mono");
+            metaThemeColorChanger('#000000');
             localStorage.setItem('prefersMono', 1);
         } else {
+            if (isDebugging) console.log(`from prefers-color-scheme`);
             document.documentElement.classList.add("mono");
+            metaThemeColorChanger('#000000');
             localStorage.setItem('prefersMono', 1);
         }
     }
+}
+
+function getCurrentColorSchemeCode(){
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
+        if (isDebugging) console.log(`dark mode prefers`);
+        return `#171717`;
+    } else {
+        if (isDebugging) console.log(`light mode prefers`);
+        return `#fc4445`;
+    }
+
+}
+
+
+function metaThemeColorChanger(colorScheme) {
+    // remove existing meta tag with name="theme-color"
+    var metaTags = document.getElementsByTagName('meta');
+    for (var i = 0; i < metaTags.length; i++) {
+        if (metaTags[i].getAttribute('name') === 'theme-color') {
+            metaTags[i].parentNode.removeChild(metaTags[i]);
+            break;
+        }
+    }
+
+    // add new meta tag with name="theme-color"
+    var metaTag = document.createElement('meta');
+    metaTag.setAttribute('name', 'theme-color');
+    metaTag.setAttribute('content', colorScheme);
+    document.getElementsByTagName('head')[0].appendChild(metaTag);
+
 }
