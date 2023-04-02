@@ -100,7 +100,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
     if (isDebugging) console.log(currentRamadanObj);
 
 
-    if (getTimeWithLocation(currentRamadanObj.seheri, prefLocation) > currentTime) { // Seheri Time
+    if (getTimeWithLocation(currentRamadanObj.seheri, prefLocation, false) > currentTime) { // Seheri Time
         isIftar = false;
         startCountdown(getTimeWithLocation(currentRamadanObj.seheri, prefLocation, isIftar));
         currentTimer = currentRamadanObj.seheri;
@@ -113,7 +113,7 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
         staticTime.dataset.isiftar = false;
         hideProgressBarSection();
     }
-    else if (getTimeWithLocation(currentRamadanObj.iftar, prefLocation) > currentTime) { // Iftar Time
+    else if (getTimeWithLocation(currentRamadanObj.iftar, prefLocation, true) > currentTime) { // Iftar Time
         if (isDebugging) console.log("iftar time");
         isIftar = true;
         //we also send progressbar stuff:
