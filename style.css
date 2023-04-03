@@ -239,3 +239,19 @@ p:hover .screen-name {
   height: 100%;
   padding-top: 1.9px;
 }
+
+
+/* namaj section */
+#namajWaqtTime {
+  background-color: var(--highlight-light);
+  padding: 2px 3px 2px 3px;
+  font-stretch: 110%;
+  font-weight: 700;
+}
+
+#namajCountdown {
+  background-color: var(--highlight-light);
+  padding: 2px 3px 2px 3px;
+  font-stretch: 110%;
+  font-weight: 700;
+}
