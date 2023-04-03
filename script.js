@@ -462,10 +462,6 @@ function getUnixTimefromHHMM(time) {
     return unixTimestamp;
 }
 
-console.log(currentTime);
-console.log(namajArray[0]);
-
-
 function whichNamajNext(arr) {
     for (let index = 0; index < namajArray.length; index++) {
         console.log(`rnn loop`);
