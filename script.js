@@ -449,9 +449,9 @@ function metaThemeColorChanger(colorScheme) {
 
 const namajArrayOrig = [getUnixTimefromHHMM("04:35"), getUnixTimefromHHMM("13:30"), getUnixTimefromHHMM("17:00"), getUnixTimefromHHMM("19:35"), getUnixTimefromHHMM("20:15")];
 
-const namajArray = [getUnixTimefromHHMM("04:35"), getUnixTimefromHHMM("13:30"), getUnixTimefromHHMM("17:00"), getUnixTimefromHHMM("19:35"), getUnixTimefromHHMM("20:15")];
+const namajArray = [getUnixTimefromHHMM("04:35"), getUnixTimefromHHMM("13:30"), getUnixTimefromHHMM("17:00"), getUnixTimefromHHMM("18:35"), getUnixTimefromHHMM("20:15")];
 const waqtMap = ["fajr", "dhuhr", "asr", "magrhib", "isha"];
-const namajTimeMap = ["04:35 am", "1:30 pm", "5:00 pm", "7:35 pm", "8:15 pm"]
+const namajTimeMap = ["04:35 am", "1:30 pm", "5:00 pm", "6:35 pm", "8:15 pm"]
 
 function getUnixTimefromHHMM(time) {
     const timeString = time;
