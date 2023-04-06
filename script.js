@@ -145,10 +145,6 @@ if (currentRamadanDate < 1) { // not ramadan yet, show countdown for day1 seheri
 
 function startCountdown(targetTime, isProgress, startTime) {
     if (isDebugging) console.log("starting new countdown...");
-    // if (countdownInterval) {
-    //     clearInterval(countdownInterval);
-    //     if (isDebugging) console.log("cleared the timer to start a new one");
-    // }
 
     // Get the HTML paragraph element to display the remaining time
     const countdownElement = document.getElementById("countdownSpan");
@@ -187,6 +183,7 @@ function startCountdown(targetTime, isProgress, startTime) {
             const start = startTime;
             const end = targetTime;
             const now = currentTimeNow;
+            console.log(end);
 
             const progress = (now - start) / (end - start) * 100;
             document.querySelector('.progress').style.width = `${progress}%`;
@@ -419,7 +416,7 @@ function toggleMonochrome() {
     }
 }
 
-function getCurrentColorSchemeCode(){
+function getCurrentColorSchemeCode() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { //dark mode using prefers
         if (isDebugging) console.log(`dark mode prefers`);
         return `#171717`;
@@ -448,3 +445,65 @@ function metaThemeColorChanger(colorScheme) {
     document.getElementsByTagName('head')[0].appendChild(metaTag);
 
 }
+
+
+const namajArrayOrig = [getUnixTimefromHHMM("04:35"), getUnixTimefromHHMM("13:30"), getUnixTimefromHHMM("17:00"), getUnixTimefromHHMM("19:35"), getUnixTimefromHHMM("20:15")];
+
+const namajArray = [getUnixTimefromHHMM("04:35"), getUnixTimefromHHMM("13:30"), getUnixTimefromHHMM("17:00"), getUnixTimefromHHMM("18:35"), getUnixTimefromHHMM("20:15")];
+const waqtMap = ["fajr", "dhuhr", "asr", "magrhib", "isha"];
+const namajTimeMap = ["04:35 am", "1:30 pm", "5:00 pm", "6:35 pm", "8:15 pm"]
+
+function getUnixTimefromHHMM(time) {
+    const timeString = time;
+    const [hours, minutes] = timeString.split(":");
+    const today = new Date();
+    const dateObj = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes, 0);
+    const unixTimestamp = Math.floor(dateObj.getTime() / 1000);
+    return unixTimestamp;
+}
+
+function whichNamajNext(arr) {
+    for (let index = 0; index < namajArray.length; index++) {
+        console.log(`rnn loop`);
+        const element = namajArray[index];
+        if (element > currentTime) {
+            return index;
+        }
+    }
+}
+
+const namajWaqtText = document.querySelector('#namajWaqt');
+const namajWaqtTimeText = document.querySelector('#namajWaqtTime');
+const currentWaqt = whichNamajNext(namajArray);
+namajWaqtText.innerHTML = waqtMap[currentWaqt];
+namajWaqtTimeText.innerHTML = namajTimeMap[currentWaqt];
+startNamajCountdown(namajArray[currentWaqt]);
+
+function startNamajCountdown(targetTime) {
+    if (isDebugging) console.log("starting new countdown...");
+
+    // Get the HTML paragraph element to display the remaining time
+    const countdownElement = document.getElementById("namajCountdown");
+
+    // Update the content of the paragraph element with the initial time
+    const currentTime = parseInt(Date.now() / 1000);
+    const initialTime = Math.floor(targetTime - currentTime);
+    const initialHours = Math.floor(initialTime / 3600);
+    const initialMinutes = Math.floor((initialTime % 3600) / 60);
+    const initialSeconds = initialTime % 60;
+    countdownElement.textContent = `${initialHours}h:${initialMinutes}m`;
+
+    // Update the content of the paragraph element every second until the target time is reached
+    const NamajCountdownInterval = setInterval(() => {
+        let currentTimeNow = parseInt(Date.now() / 1000);
+        const remainingTime = Math.floor(targetTime - currentTimeNow);
+        const remainingHours = Math.floor(remainingTime / 3600);
+        const remainingMinutes = Math.floor((remainingTime % 3600) / 60);
+        countdownElement.textContent = `${remainingHours}h:${remainingMinutes}m`;
+
+        if (remainingTime <= 0) {
+            clearInterval(NamajCountdownInterval);
+            countdownElement.textContent = "time to namaj";
+        }
+    }, 1000);
+};
