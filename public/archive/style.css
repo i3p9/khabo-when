@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+@font-face {
+  font-family: 'Mona Sans';
+  src:
+    url('assets/Mona-Sans.woff2') format('woff2 supports variations'),
+    url('assets/Mona-Sans.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+}
+
+/* :root {
+  --accent-light: #fc4445;
+  --highlight-light: #cafafe;
+  --text-light: black;
+} */
+
+
+/* color scheme */
+/* automatic/manual light mode */
+:root, :root.light {
+  --accent-light: #fc4445;
+  --highlight-light: #cafafe;
+  --text-light: black;
+  --shadow: rgba(0,0,0,.75);
+}
+
+/* automatic dark mode */
+/* ❗️ keep the rules in sync with the manual dark mode below! */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-light: #171717;
+    --highlight-light: #BC4873;
+    /* --highlight-light: #9C3D54; */
+    --text-light: #C4B6B6;
+    --shadow: rgba(196, 182, 182, .75);
+    }
+}
+
+/* manual dark mode
+/* ❗️ keep the rules in sync with the automatic dark mode above! */
+:root.dark {
+  --accent-light: #171717;
+  --highlight-light: #BC4873;
+  /* --highlight-light: #9C3D54; */
+  --text-light: #C4B6B6;
+  --shadow: rgba(196, 182, 182, .75);
+}
+
+:root.mono {
+  --accent-light: #000000;
+  --highlight-light: #495057;
+  /* --highlight-light: #9C3D54; */
+  --text-light: #e9ecef;
+  --shadow: #343a40;
+}
+
+
+
+/* html,
+body {
+  height: 100%;
+  background-color: #fc4445;
+  opacity: 0.85;
+  background-image:  radial-gradient(#cafafe 0.55px, transparent 0.55px), radial-gradient(#cafafe 0.55px, #fc4445 0.55px);
+  background-size: 22px 22px;
+  background-position: 0 0,11px 11px;
+} */
+
+html, body {
+  height: 100%;
+  background-color: var(--accent-light);
+  opacity: 0.8;
+  background-image:  radial-gradient(var(--highlight-light) 0.9px, transparent 0.9px), radial-gradient(var(--highlight-light) 0.9px, var(--accent-light) 0.9px);
+  background-size: 40px 40px;
+  background-position: 0 0,20px 20px;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: var(--text-light);
+  /* text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5); */
+  /* font-family: 'Inter', sans-serif; */
+  font-family: 'Mona Sans';
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.title-text {
+  font-weight: 900;
+  font-stretch: 115%;
+  background: var(--highlight-light);
+}
+
+.highlighted-text {
+  background: var(--highlight-light);
+  padding: 2px 3px 2px 3px;
+  font-weight: 600;
+  font-stretch: 105%;
+}
+
+
+p {
+  margin-bottom: .6rem !important;
+}
+
+a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--text-light);
+  text-decoration: dashed;
+}
+
+.cover-container {
+  max-width: 42em;
+}
+
+.location {
+    color: var(--text-light);
+    text-decoration: underline wavy var(--highlight-light);
+}
+.location:hover {
+    color: var(--highlight-light);
+}
+
+/*
+ * Header
+ */
+.masthead {
+  margin-bottom: 2rem;
+}
+
+.masthead-brand {
+  margin-bottom: 0;
+}
+
+.nav-masthead .nav-link {
+  padding: .25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .5);
+  background-color: transparent;
+  border-bottom: .25rem solid transparent;
+}
+
+
+.nav-masthead .nav-link + .nav-link {
+  margin-left: 1rem;
+}
+
+.nav-masthead .active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (min-width: 48em) {
+  .masthead-brand {
+    float: left;
+  }
+  .nav-masthead {
+    float: right;
+  }
+}
+
+.bordered {
+  border: 3px solid var(--text-light);
+  padding: 3px 3px 3px 3px;
+  box-shadow: 5px 5px var(--shadow);
+}
+
+.content {
+  border-top: 3px dashed var(--highlight-light);
+  border-bottom: 3px dashed var(--highlight-light);
+  padding: 10px;
+}
+
+
+/*
+ * Footer
+ */
+
+ .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25px; /* Set the fixed height of the footer here */
+  line-height: 25px; /* Vertically center the text there */
+  background-color: var(--highlight-light);
+}
+
+.footerText {
+  /* font-family: 'Playfair Display', sans-serif; */
+  /* font-weight: 600; */
+  font-weight: 200;
+  font-stretch: 110;
+  font-size: .9rem;
+}
+
+p .screen-name {
+  display: none;
+}
+
+p:hover .my-name {
+  display: none;
+}
+
+p:hover .screen-name {
+  display: inline;
+}
+
+
+/* countdown progress */
+.progress-bar {
+  width: 100%;
+  height: 25px;
+  /* background-color: #f5f5f5; */
+  background-color: var(--highlight-light);
+  border: 3px solid var(--text-light);
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--accent-light);
+  transition: width 1s linear;
+  border-radius: 0% !important;
+
+}
+
+#progressPercentage{
+  width: 100%;
+  height: 100%;
+  padding-top: 1.9px;
+}
+
+
+/* namaj section */
+#namajWaqtTime {
+  background-color: var(--highlight-light);
+  padding: 2px 3px 2px 3px;
+  font-stretch: 110%;
+  font-weight: 700;
+}
+
+#namajCountdown {
+  background-color: var(--highlight-light);
+  padding: 2px 3px 2px 3px;
+  font-stretch: 110%;
+  font-weight: 700;
+}
