@@ -30,7 +30,9 @@ const renderRamadanDate = (date) => {
 };
 
 export default function NewHome() {
-	const [location, setLocation] = useState("Dhaka");
+	const [location, setLocation] = useState(() => {
+		return localStorage.getItem("location") || "Dhaka";
+	});
 	const { dataDisplay, countdown } = useRamadan(true, null, location);
 	const [iftarPercentage, setIftarPercentage] = useState(0);
 	const [isSpinning, setIsSpinning] = useState(false);
@@ -42,9 +44,9 @@ export default function NewHome() {
 	};
 
 	const toggleLocation = () => {
-		setLocation((prevLocation) =>
-			prevLocation === "Dhaka" ? "Jhenaidah" : "Dhaka"
-		);
+		const newLocation = location === "Dhaka" ? "Jhenaidah" : "Dhaka";
+		setLocation(newLocation);
+		localStorage.setItem("location", newLocation);
 	};
 
 	useEffect(() => {
@@ -122,7 +124,7 @@ export default function NewHome() {
 						{/* Iftar Percentage */}
 						{dataDisplay?.nextMeal === "Iftar" && (
 							<div className='my-6'>
-								<div className='relative w-full h-2 bg-gray-200 rounded-full overflow-hidden'>
+								<div className='relative w-full h-2 bg-gray-200 rounded-full mb-6'>
 									<div
 										className='absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-full'
 										style={{
@@ -132,6 +134,27 @@ export default function NewHome() {
 										}}
 									></div>
 								</div>
+								{/* date icon on top of bar */}
+								<div className='relative w-full h-0'>
+									<div
+										className='absolute -top-11'
+										style={{
+											left: `${iftarPercentage}%`,
+											transform: "translateX(-50%)",
+											transition:
+												"left 1s cubic-bezier(0.4, 0, 0.2, 1)",
+										}}
+									>
+										<img
+											src='/assets/date_icon.png'
+											alt='Citrus'
+											width={20}
+											height={20}
+											className='w-7 h-7 text-amber-500'
+										/>
+									</div>
+								</div>
+
 								<div className='flex justify-between mt-2 text-xs text-indigo-300'>
 									<span>Sehri</span>
 									<span
