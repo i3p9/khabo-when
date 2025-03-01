@@ -150,7 +150,7 @@ export default function NewHome() {
 
 	return (
 		<main
-			className={`min-h-screen ${bgGradient} flex items-center justify-center p-4 transition-colors duration-700`}
+			className={`min-h-screen ${bgGradient} flex items-center justify-center p-4 transition-colors duration-700 overflow-hidden`}
 		>
 			<div className='w-full max-w-md'>
 				<Card
@@ -331,17 +331,17 @@ export default function NewHome() {
 				{/* Decorative Elements */}
 				<div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
 					<div
-						className={`absolute top-0 left-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+						className={`absolute top-0 left-0 w-32 md:w-64 h-32 md:h-64 bg-amber-700 rounded-full mix-blend-multiply filter blur-xl opacity-${
 							darkMode ? "20" : "10"
 						} animate-blob`}
 					></div>
 					<div
-						className={`absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+						className={`absolute top-0 right-0 w-32 md:w-64 h-32 md:h-64 bg-indigo-800 rounded-full mix-blend-multiply filter blur-xl opacity-${
 							darkMode ? "20" : "10"
 						} animate-blob animation-delay-2000`}
 					></div>
 					<div
-						className={`absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+						className={`absolute bottom-0 left-0 w-32 md:w-64 h-32 md:h-64 bg-pink-700 rounded-full mix-blend-multiply filter blur-xl opacity-${
 							darkMode ? "20" : "10"
 						} animate-blob animation-delay-4000`}
 					></div>
