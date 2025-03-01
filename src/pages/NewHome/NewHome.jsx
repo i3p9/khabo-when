@@ -1,13 +1,13 @@
 import { Moon, Sun, MapPin } from "lucide-react";
 import { Card, CardContent } from "../../components/ui/card";
 import useRamadan from "../../hooks/useRamadan";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { renderUnixTime, renderCountdown } from "../../lib/utils";
 import NextMealCard from "../../components/NextMealCard";
 import { RefreshCcw } from "lucide-react";
 
-const renderTodaysDate = (date) => {
-	const dateObj = new Date(date);
+const RenderTodaysDate = ({ currentTime }) => {
+	const dateObj = new Date(currentTime);
 
 	const formattedDate = dateObj.toLocaleDateString("en-US", {
 		weekday: "long",
@@ -16,13 +16,28 @@ const renderTodaysDate = (date) => {
 		year: "numeric",
 	});
 
-	const formattedTime = dateObj.toLocaleTimeString("en-US", {
-		hour: "2-digit",
+	const formattedTimeHour = dateObj
+		.toLocaleTimeString("en-US", {
+			hour: "2-digit",
+			hour12: true,
+		})
+		.replace(/AM|PM/, "");
+
+	const timeString = dateObj.toLocaleTimeString("en-US", {
 		minute: "2-digit",
 		hour12: true,
 	});
 
-	return `${formattedDate} / ${formattedTime}`;
+	const minutes = timeString.substring(0, 2);
+	const ampm = timeString.includes("AM") ? "AM" : "PM";
+
+	return (
+		<React.Fragment>
+			{formattedDate} / {formattedTimeHour.trim()}
+			<span className='animate-pulse'>:</span>
+			{minutes} {ampm}
+		</React.Fragment>
+	);
 };
 
 const renderRamadanDate = (date) => {
@@ -114,7 +129,7 @@ export default function NewHome() {
 						{/* Date and Ramadan Day */}
 						<div className='text-center mb-6'>
 							<p className='text-indigo-200 text-md'>
-								{renderTodaysDate(currentTime)}
+								<RenderTodaysDate currentTime={currentTime} />
 							</p>
 							<p className='text-white text-lg font-semibold'>
 								{renderRamadanDate(dataDisplay?.ramadanDate)}

@@ -20,9 +20,9 @@ const NextMealCard = ({ nextMeal, time, countdown }) => {
 					{time}
 				</p> */}
 				<div className='flex items-center'>
-					<span class='relative flex size-2 mr-3'>
-						<span class='absolute inline-flex h-full w-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-indigo-600 opacity-80'></span>
-						<span class='relative inline-flex size-2 rounded-full bg-indigo-950'></span>
+					<span className='relative flex size-2 mr-3'>
+						<span className='absolute inline-flex h-full w-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-indigo-600 opacity-80'></span>
+						<span className='relative inline-flex size-2 rounded-full bg-indigo-950'></span>
 					</span>
 
 					<p className='text-indigo-950 text-sm font-base font-mono'>
