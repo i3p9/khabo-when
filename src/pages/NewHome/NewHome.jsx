@@ -7,12 +7,22 @@ import NextMealCard from "../../components/NextMealCard";
 import { RefreshCcw } from "lucide-react";
 
 const renderTodaysDate = (date) => {
-	return new Date(date).toLocaleDateString("en-US", {
+	const dateObj = new Date(date);
+
+	const formattedDate = dateObj.toLocaleDateString("en-US", {
 		weekday: "long",
 		day: "2-digit",
 		month: "long",
 		year: "numeric",
 	});
+
+	const formattedTime = dateObj.toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+	});
+
+	return `${formattedDate} / ${formattedTime}`;
 };
 
 const renderRamadanDate = (date) => {
@@ -36,6 +46,7 @@ export default function NewHome() {
 	const { dataDisplay, countdown } = useRamadan(true, null, location);
 	const [iftarPercentage, setIftarPercentage] = useState(0);
 	const [isSpinning, setIsSpinning] = useState(false);
+	const [currentTime, setCurrentTime] = useState(new Date());
 
 	const toggleLocationWithAnimation = () => {
 		setIsSpinning(true);
@@ -51,6 +62,7 @@ export default function NewHome() {
 
 	useEffect(() => {
 		const updatePercentage = () => {
+			setCurrentTime(new Date());
 			if (
 				dataDisplay.nextMeal === "Iftar" &&
 				dataDisplay.nextMealTime
@@ -102,7 +114,7 @@ export default function NewHome() {
 						{/* Date and Ramadan Day */}
 						<div className='text-center mb-6'>
 							<p className='text-indigo-200 text-md'>
-								{renderTodaysDate(dataDisplay?.todaysDate)}
+								{renderTodaysDate(currentTime)}
 							</p>
 							<p className='text-white text-lg font-semibold'>
 								{renderRamadanDate(dataDisplay?.ramadanDate)}
