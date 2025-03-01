@@ -1,11 +1,12 @@
-# khabo-when
+# React + Vite
 
-an extremely basic barebones site to look at iftar/seheri times. dynamically switches between iftar and seheri countdown. only functions during ramadan. 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Screenshots durning ramadan:
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/8825262/228173744-c6c16996-9f81-48df-a193-1596960ae42a.jpeg" width="300" alt="mobile screenshot, safari">
-    <img src="https://user-images.githubusercontent.com/8825262/228175838-5b1f75c8-0f1d-4e62-bfb3-c7de729f663d.png" width="450" alt="web screenshot, chrome">
-</p>
+Currently, two official plugins are available:
 
-due to some css support in safari (yet to troubleshoot), colors looks different on iphone and macbook chrome.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
