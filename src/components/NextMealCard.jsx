@@ -1,8 +1,13 @@
 import { Dot } from "lucide-react";
 import { Star } from "lucide-react";
-const NextMealCard = ({ nextMeal, time, countdown }) => {
+const NextMealCard = ({
+	nextMeal,
+	time,
+	countdown,
+	darkMode = true,
+}) => {
 	return (
-		<div className='bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg p-4 mb-6'>
+		<div className='bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg p-4 mb-6 transition-all duration-500 transform hover:scale-[1.01]'>
 			<p className='text-indigo-950 opacity-80 text-sm font-medium'>
 				Next Meal
 			</p>

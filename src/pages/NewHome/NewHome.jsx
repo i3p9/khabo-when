@@ -62,6 +62,11 @@ export default function NewHome() {
 	const [iftarPercentage, setIftarPercentage] = useState(0);
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
+	const [darkMode, setDarkMode] = useState(() => {
+		const savedTheme = localStorage.getItem("theme");
+		return savedTheme ? savedTheme === "dark" : true;
+	});
+	const [isThemeChanging, setIsThemeChanging] = useState(false);
 
 	const toggleLocationWithAnimation = () => {
 		setIsSpinning(true);
@@ -73,6 +78,16 @@ export default function NewHome() {
 		const newLocation = location === "Dhaka" ? "Jhenaidah" : "Dhaka";
 		setLocation(newLocation);
 		localStorage.setItem("location", newLocation);
+	};
+
+	const toggleTheme = () => {
+		setIsThemeChanging(true);
+		setTimeout(() => {
+			const newTheme = !darkMode;
+			setDarkMode(newTheme);
+			localStorage.setItem("theme", newTheme ? "dark" : "light");
+			setTimeout(() => setIsThemeChanging(false), 300);
+		}, 150);
 	};
 
 	useEffect(() => {
@@ -107,51 +122,111 @@ export default function NewHome() {
 		dataDisplay.todaysSeheri,
 	]);
 
+	// Light mode and dark mode color schemes
+	const bgGradient = darkMode
+		? "bg-gradient-to-b from-indigo-900 to-indigo-950"
+		: "bg-gradient-to-b from-blue-100 to-indigo-100";
+
+	const cardBg = darkMode
+		? { backgroundColor: "rgba(255, 255, 255, 0.1)" }
+		: { backgroundColor: "rgba(255, 255, 255, 0.8)" };
+
+	const cardClass = darkMode
+		? "bg-opacity-10 backdrop-blur-md border-none shadow-lg"
+		: "bg-opacity-80 backdrop-blur-md border-none shadow-lg";
+
+	const titleColor = darkMode ? "text-amber-400" : "text-amber-600";
+	const textColor = darkMode ? "text-indigo-200" : "text-indigo-700";
+	const headingColor = darkMode ? "text-white" : "text-indigo-900";
+	const subTextColor = darkMode
+		? "text-indigo-300"
+		: "text-indigo-600";
+	const percentageTextColor = darkMode
+		? "text-white"
+		: "text-indigo-900";
+
+	// Common transition class for text elements
+	const textTransition = "transition-colors duration-500";
+
 	return (
-		<main className='min-h-screen bg-gradient-to-b from-indigo-900 to-indigo-950 flex items-center justify-center p-4'>
+		<main
+			className={`min-h-screen ${bgGradient} flex items-center justify-center p-4 transition-colors duration-700`}
+		>
 			<div className='w-full max-w-md'>
 				<Card
-					style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-					className='bg-opacity-10 backdrop-blur-md border-none shadow-lg'
+					style={cardBg}
+					className={`${cardClass} transition-all duration-500`}
 				>
 					<CardContent className='p-6'>
 						{/* Header */}
 						<div className='flex justify-between items-center mb-6'>
-							<h1 className='text-2xl font-black text-amber-400 underline underline-offset-2'>
+							<h1
+								className={`text-2xl font-black ${titleColor} ${textTransition} underline underline-offset-2`}
+							>
 								kokhon khabo?
 							</h1>
 							<div className='flex space-x-2'>
-								<Sun className='text-amber-400 w-6 h-6' />
-								<Moon className='text-indigo-200 w-6 h-6' />
+								<button
+									onClick={toggleTheme}
+									className='p-1 rounded-full hover:bg-opacity-20 hover:cursor-pointer hover:bg-gray-500 transition-colors relative overflow-hidden'
+									title={
+										darkMode
+											? "Switch to Light Mode"
+											: "Switch to Dark Mode"
+									}
+									disabled={isThemeChanging}
+								>
+									<div
+										className={`absolute inset-0 bg-gray-400 bg-opacity-30 rounded-full scale-0 ${
+											isThemeChanging ? "animate-ripple" : ""
+										}`}
+									></div>
+									<div
+										className={`transform transition-all duration-500 ${
+											isThemeChanging
+												? darkMode
+													? "scale-75 rotate-180 opacity-0"
+													: "scale-75 rotate-180 opacity-0"
+												: "scale-100 rotate-0 opacity-100"
+										}`}
+									>
+										{darkMode ? (
+											<Sun className='text-amber-400 w-6 h-6' />
+										) : (
+											<Moon className='text-indigo-600 w-6 h-6' />
+										)}
+									</div>
+								</button>
 							</div>
 						</div>
 
 						{/* Date and Ramadan Day */}
 						<div className='text-center mb-6'>
-							<p className='text-indigo-200 text-md'>
+							<p className={`${textColor} ${textTransition} text-md`}>
 								<RenderTodaysDate currentTime={currentTime} />
 							</p>
-							<p className='text-white text-lg font-semibold'>
+							<p
+								className={`${headingColor} ${textTransition} text-lg font-semibold`}
+							>
 								{renderRamadanDate(dataDisplay?.ramadanDate)}
 							</p>
 						</div>
-						{/* <FluidCard
-							nextMeal={dataDisplay?.nextMeal}
-							time={renderUnixTime(dataDisplay?.nextMealTime)}
-							countdown={renderCountdown(countdown)}
-							percentage={iftarPercentage}
-						/> */}
 
 						<NextMealCard
 							nextMeal={dataDisplay?.nextMeal}
 							time={renderUnixTime(dataDisplay?.nextMealTime)}
 							countdown={renderCountdown(countdown)}
+							darkMode={darkMode}
 						/>
 
 						{/* Iftar Percentage */}
 						{dataDisplay?.nextMeal === "Iftar" && (
 							<div className='my-6'>
-								<div className='relative w-full h-2 bg-gray-200 rounded-full mb-6'>
+								<div
+									className={`relative w-full h-2 ${
+										darkMode ? "bg-gray-200" : "bg-gray-300"
+									} rounded-full mb-6`}
+								>
 									<div
 										className='absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-full'
 										style={{
@@ -182,10 +257,10 @@ export default function NewHome() {
 									</div>
 								</div>
 
-								<div className='flex justify-between mt-2 text-xs text-indigo-300'>
-									<span>Sehri</span>
+								<div className='flex justify-between mt-2 text-xs'>
+									<span className={subTextColor}>Sehri</span>
 									<span
-										className='text-white'
+										className={`${percentageTextColor} ${textTransition}`}
 										style={{
 											transition:
 												"all 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -193,28 +268,42 @@ export default function NewHome() {
 									>
 										{iftarPercentage.toFixed(1)}%
 									</span>
-									<span>Iftar</span>
+									<span className={subTextColor}>Iftar</span>
 								</div>
 							</div>
 						)}
 
 						<div className='grid grid-cols-2 gap-4 mb-6'>
 							<div className='text-center'>
-								<p className='text-indigo-300 text-sm'>Sehri</p>
-								<p className='text-white font-semibold'>
+								<p
+									className={`${subTextColor} ${textTransition} text-sm`}
+								>
+									Sehri
+								</p>
+								<p
+									className={`${headingColor} ${textTransition} font-semibold`}
+								>
 									{renderUnixTime(dataDisplay?.todaysSeheri)}
 								</p>
 							</div>
 							<div className='text-center'>
-								<p className='text-indigo-300 text-sm'>Iftar</p>
-								<p className='text-white font-semibold'>
+								<p
+									className={`${subTextColor} ${textTransition} text-sm`}
+								>
+									Iftar
+								</p>
+								<p
+									className={`${headingColor} ${textTransition} font-semibold`}
+								>
 									{renderUnixTime(dataDisplay?.todaysIftar)}
 								</p>
 							</div>
 						</div>
 
 						{/* Location */}
-						<div className='flex items-center justify-center text-indigo-300 mb-4'>
+						<div
+							className={`flex items-center justify-center ${subTextColor} ${textTransition} mb-4`}
+						>
 							<MapPin className='w-4 h-4 mr-1 self-center' />
 							<span className='text-sm'>{dataDisplay?.location}</span>
 							<button
@@ -241,9 +330,21 @@ export default function NewHome() {
 
 				{/* Decorative Elements */}
 				<div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-					<div className='absolute top-0 left-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob'></div>
-					<div className='absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000'></div>
-					<div className='absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000'></div>
+					<div
+						className={`absolute top-0 left-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+							darkMode ? "20" : "10"
+						} animate-blob`}
+					></div>
+					<div
+						className={`absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+							darkMode ? "20" : "10"
+						} animate-blob animation-delay-2000`}
+					></div>
+					<div
+						className={`absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-${
+							darkMode ? "20" : "10"
+						} animate-blob animation-delay-4000`}
+					></div>
 				</div>
 			</div>
 		</main>
